@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.css"/>
+    <script src="./jquery.js"></script>
+    <style>
+
+    </style>
+</head>
+<body style="padding: 20px;">
+    <!-- 渲染图书列表（核心代码）---核心思想
+function getBookList() {
+    //1 发起ajax 请求获取图书列表数据
+    $.get('http://www.liulongbin.top:3006/api/getbooks',function(res){
+        //2 获取列表数据是否成功
+        if (res.status !== 200) return alert('获取图书列表失败！')
+
+
+        //3 渲染页面结构
+        var rows = []
+        $.each(res.data, function(i, item){//4循环拼接字符串
+            rows.push('<tr><td>' + item.id + '</td><td>' + item.bookname + '</td><td>' + item.author + '</td><td>' + item.publisher + '</td><td><a href="javascript:;">删除</a></td></tr>')
+        })
+        $('#bookBody').empty().append(rows.join(''))//5渲染表格结构
+
+
+        
+    })
+}
+
+-->
+
+
+<!-- 渲染图书列表 -->
+<!-- 获取图书列表数据
+ -->
+
+
+<!-- 1添加图书的Panel面板 -->
+  
+
+
+<div class="panel panel-primary">
+      <div class="panel-heading">
+            <h3 class="panel-title">添加新图书</h3>
+      </div>
+
+
+
+
+      <div class="panel-body form-inline"><!--给panel-body的class中加上form-inline  直接和前面的class的属性空格   就有固定的属性-->
+            
+
+
+
+
+            <div class="input-group">
+                <div class="input-group-addon">书名</div>
+                <input type="text" class="form-control" id="iptBookname" placeholder="请输入书名">
+                <!-- placeholder占位符 占位文字 -->
+            </div>
+
+
+
+
+
+
+            <div class="input-group">
+                <div class="input-group-addon">作者</div>
+                <input type="text" class="form-control" id="iptAuthor" placeholder="请输入作者">
+                <!-- placeholder占位符 占位文字 -->
+            </div>
+
+
+
+
+
+
+            <div class="input-group">
+                <div class="input-group-addon">出版社</div>
+                <input type="text" class="form-control" id="iptPublisher" placeholder="请输入出版社">
+                <!-- placeholder占位符 占位文字 -->
+            </div>
+            
+
+
+
+
+
+
+            <button id="btnAdd" class="btn btn-primary">添加</button><!--class="btn btn-primary"   就有固定的效果-->
+      </div>
+</div>
+
+   
+
+
+
+
+
+<!-- 2图书的表格 -->
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+
+
+
+
+
+
+
+    
+
+
+    <tbody id="tb">
+
+    </tbody>
+
+
+
+
+
+</table>
+
+
+
+
+
+<!-- 在body结束的最后一个标签上再加一个<script></script> -->
+<!-- <script>
+    // 调用jquery的入口函数
+    $(function(){
+        //获取图书列表数据 定义一个函数getBookList()
+        function getBookList() {
+            // 通过ajax发起get请求
+            $.get('http://www.liulongbin.top:3006/api/getbooks',function(res){
+                // if(res.status !== 200) return alert('获取图书列表失败！')
+                console.log(res);
+
+            })
+        }
+
+        // 调用getBookList函数
+        getBookList()
+    })
+</script> -->
+
+
+<script>
+    // 必须要先调用jquery的入口函数
+    $(function(){
+        function getBookInfo() {
+            $.get('http://www.liulongbin.top:3006/api/getbooks', function(res){
+                if(res.status !== 200) return alert('获取图书列表失败！')
+                // 接下来循环每一条数据 把每条数据渲染成一个tr
+                // 先定义一个数组rows 用来存储所有的tr行
+                var rows = []
+                // 接下来是循环 可以写for循环 jquery中提供了each方法用来循环  这个each就代表循环的意思
+                // 第一个参数就要放循环的数组 也就是res.data
+                // 接下来 每循环一项 都会调用这个function处理函数
+                // 在function中 可以接受到当前循环项的索引i  当前循环项item
+                // 每拿到一个item 都要把这个item变成一个tr行 放到rows数组中
+                // 所以可以用数组的push函数 push字符串到数组rows中
+               
+                // 字符串就是tr的一行
+                // 在tr里面要包含5个td (5个th)
+                // 第一个td中要渲染id 
+                // 最后一个td中要渲染一个操作列 直接用a链接
+                // 每循环一次 向rows里面追加一个tr行
+                $.each(res.data,  function(i,  item){
+                    rows.push('<tr><td>'+item.id+'</td><td>'+item.bookname+'</td><td>'+item.author+'</td><td>'+item.publisher+'</td><td><a href="javascript:;">删除</a></td></tr>')
+                })
+
+                // 当整个循环走完  所有的行都循环出来了
+                // 把rows的每一行都放到tbody中 
+                // 给tbody标签加一个id=tb
+                // 通过ajax的选择器
+                // 首先清空tbody
+                // 清空后append一个内容
+                // rows.join('') 数组转换为字符串类型
+
+                
+                $('#tb').empty().append(rows.join(''))
+
+
+            })
+        }
+
+        getBookInfo()
+    })
+</script>
+</body>
+</html>
